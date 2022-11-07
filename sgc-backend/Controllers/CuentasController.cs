@@ -26,16 +26,6 @@ namespace sgc_backend.Controllers
 {
     // Periodo admin: admin-sin-periodo
     // --------------------------------------------
-    /// <summary>
-    /// Status HTTP:
-    /// 200 = Ok: Respuesta estándar para peticiones correctas. 
-    /// 202 = Accepted: La petición ha sido aceptada para procesamiento, pero este no ha sido completado. La petición eventualmente puede no haber sido satisfecha, ya que podría ser no permitida o prohibida cuando el procesamiento tenga lugar.
-    /// 204 = No Content: La petición se ha completado con éxito pero su respuesta no tiene ningún contenido (la respuesta puede incluir información en sus cabeceras HTTP).
-    /// 400 = Bad Request: El servidor no procesará la solicitud, porque no puede, o no debe, debido a algo que es percibido como un error del cliente (ej: solicitud malformada, sintaxis errónea, etc). La solicitud contiene sintaxis errónea y no debería repetirse.
-    /// 404 = Not Found: Recurso no encontrado. Se utiliza cuando el servidor web no encuentra la página o recurso solicitado.
-    /// IMPORTANTE: 
-    /// EL ID de la tabla USER solo se esta utilizando al momento de registrar, luego no se podrá obtener este ID.
-    /// </summary>
     [ApiController]
     [Route("api/cuentas")]
     public class CuentasController : ControllerBase
@@ -56,8 +46,11 @@ namespace sgc_backend.Controllers
             try
             {
                 // ---------------------
+                var user = await userManager.FindByEmailAsync(credsUsuarioRegiser.Email);
+                if (user!=null&&user.Email == credsUsuarioRegiser.Email) return BadRequest("Ya existe");
                 // creando username 
-                credsUsuarioRegiser.Names = credsUsuarioRegiser.Names.Split(' ')[0] + "-" + credsUsuarioRegiser.Names.Split(' ')[1];
+                //credsUsuarioRegiser.Names = credsUsuarioRegiser.Names.Split(' ')[0] + "-" + credsUsuarioRegiser.Names.Split(' ')[1];
+                credsUsuarioRegiser.Names=ConvertirNombre(credsUsuarioRegiser.Names);
                 // creando un objeto de tipo IdentityUser
                 var usuarioRegistrar = new IdentityUser { UserName = credsUsuarioRegiser.Names, Email = credsUsuarioRegiser.Email };
                 // agregando a la bd
@@ -70,6 +63,21 @@ namespace sgc_backend.Controllers
             {
                 // Recurso no encontrado. Se utiliza cuando el servidor web no encuentra la página o recurso solicitado.
                 return BadRequest($"Ocurrió un error: {ex}");
+            }
+        }
+        [HttpPut("actualizar")]
+        public async Task<ActionResult> Actualizar([FromQuery] string newName,[FromQuery] string name)
+        {
+            try
+            {
+                newName=ConvertirNombre(newName);
+                var user = await userManager.FindByNameAsync(name.Trim());
+                var result = await userManager.SetUserNameAsync(user, newName);
+                return Ok();
+            }
+            catch (Exception err)
+            {
+                return BadRequest(err.Message);
             }
         }
         [HttpGet("login")]
@@ -87,6 +95,15 @@ namespace sgc_backend.Controllers
                 // Recurso no encontrado. Se utiliza cuando el servidor web no encuentra la página o recurso solicitado.
                 return BadRequest($"Ocurrió un error: {ex}");
             }
+        }
+        private static string ConvertirNombre(string nombre)
+        {
+            string tem = "";
+            nombre = Regex.Replace(nombre.Normalize(NormalizationForm.FormD), @"[^a-zA-z0-9 ]+", "");
+            string[] valores = nombre.ToUpper().Trim().Split(' ');
+            foreach (var i in valores)
+                tem +=i==valores[valores.Length-1]? i:i + "-";
+            return tem;
         }
         private async Task<RespuestaAutenticacion> ConstruirToken(CredsUsuarioRegister usuario)
         {

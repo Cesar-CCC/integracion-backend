@@ -10,8 +10,8 @@ using sgc_backend;
 namespace sgc_backend.Migrations
 {
     [DbContext(typeof(MyWebApiContext))]
-    [Migration("20221016212234_m1")]
-    partial class m1
+    [Migration("20221028141757_s11")]
+    partial class s11
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
