@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using sgc_backend;
@@ -9,9 +10,10 @@ using sgc_backend;
 namespace sgc_backend.Migrations
 {
     [DbContext(typeof(MyWebApiContext))]
-    partial class MyWebApiContextModelSnapshot : ModelSnapshot
+    [Migration("20221118140857_s200")]
+    partial class s200
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

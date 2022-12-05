@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using sgc_backend.models;
 
 namespace sgc_backend
 {
@@ -82,5 +83,6 @@ namespace sgc_backend
             //.OnDelete(DeleteBehavior.Cascade);
             base.OnModelCreating(modelBuilder);
         }
+        public DbSet<Producto> Producto { get; set; }
     }
 }

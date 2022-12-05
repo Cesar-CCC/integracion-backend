@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using sgc_backend;
@@ -9,9 +10,10 @@ using sgc_backend;
 namespace sgc_backend.Migrations
 {
     [DbContext(typeof(MyWebApiContext))]
-    partial class MyWebApiContextModelSnapshot : ModelSnapshot
+    [Migration("20221107160822_s12")]
+    partial class s12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -213,25 +215,20 @@ namespace sgc_backend.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("sgc_backend.models.Producto", b =>
+            modelBuilder.Entity("sgc_backend.DTOs.Avatar", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
-                    b.Property<string>("EnlaceImagen")
-                        .IsRequired()
+                    b.Property<string>("Email")
                         .HasColumnType("text");
 
-                    b.Property<string>("Nombre")
-                        .IsRequired()
+                    b.Property<string>("LinkAvatar")
                         .HasColumnType("text");
-
-                    b.Property<float>("Precio")
-                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Producto");
+                    b.ToTable("Avatar");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
