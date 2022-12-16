@@ -76,7 +76,8 @@ namespace sgc_backend
                 var frontEnd = Configuration.GetValue<string>("frontendUrl");
                 options.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins(frontEnd).AllowAnyMethod().AllowAnyHeader().WithExposedHeaders(new string[] { "cantidadTotalRegistros" });
+                    // para que accedan de cualquier origen a nuestra API AllowAnyOrigin
+                    builder.WithOrigins(frontEnd).AllowAnyMethod().AllowAnyOrigin().AllowAnyHeader();
                 });
             });
 

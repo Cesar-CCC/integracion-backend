@@ -10,7 +10,7 @@ using sgc_backend;
 namespace sgc_backend.Migrations
 {
     [DbContext(typeof(MyWebApiContext))]
-    [Migration("20221028141757_s11")]
+    [Migration("20221212155248_s11")]
     partial class s11
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -213,6 +213,28 @@ namespace sgc_backend.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("sgc_backend.models.Producto", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text");
+
+                    b.Property<string>("EnlaceImagen")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<float>("Precio")
+                        .HasColumnType("real");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Producto");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

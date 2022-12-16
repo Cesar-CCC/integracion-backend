@@ -216,6 +216,7 @@ namespace sgc_backend.Migrations
             modelBuilder.Entity("sgc_backend.models.Producto", b =>
                 {
                     b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("text");
 
                     b.Property<string>("EnlaceImagen")
